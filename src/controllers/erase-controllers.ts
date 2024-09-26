@@ -1,9 +1,15 @@
-import { GetCredentialsByUserService } from "../services/credentials-service";
-import { Response, Request } from "express";
+import { DeleteUserService } from "../services/erase-service";
+import {Request, Response} from 'express';
 
-export async function GetCredentialsByUserController(res: Response, req: Request) {
-    const id = req.body
-    const GetCredentials = GetCredentialsByUserService(id);
+export async function DeleteUserController(req: Request, res: Response) {
+    const { id } = req.params
+    console.log(id)
+    const user_id = parseInt(id)
 
-    res.status(200).send(GetCredentials)
+    try {
+        const DeleteUser = DeleteUserService(user_id) 
+        res.status(200).send(DeleteUser)
+    } catch (error) {
+        res.status(400).send(error)
+    }
 }

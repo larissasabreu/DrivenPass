@@ -1,8 +1,11 @@
-// import { Router } from "express";
-// import { GetCredentialsByUserController } from "../controllers/credentials-controller";
+import { Router } from "express";
+import { GetCredentialsByUserController, PostCredentialsController } from "../controllers/credentials-controller";
+import { validateSchema } from "../middlewares/schemas-middleware";
+import { credentialsSchema } from "../schemas/credentials-schemas";
 
-// const credentialsRouter = Router();
+const credentialsRouter = Router();
 
-// credentialsRouter.get("/credentials", GetCredentialsByUserController);
+credentialsRouter.get("/credentials", GetCredentialsByUserController);
+credentialsRouter.post("/credentials", validateSchema(credentialsSchema), PostCredentialsController);
 
-// export default credentialsRouter;
+export default credentialsRouter;
