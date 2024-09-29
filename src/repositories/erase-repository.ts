@@ -1,16 +1,15 @@
 import prisma from "../config/db";
 
 export async function DeleteUserRepository (id: number) {
-    const DeleteUser = prisma.users.delete({
+
+    const DeleteUser =  prisma.users.delete({
         where: { id }
       })
       
-    // const DeleteCredentials = prisma.credentials.delete({
-    //   where: {
-    //     user_id: id ,
-    //   },
-    // })
+    const DeleteCredentials =  prisma.credentials.deleteMany({
+      where: { user_id:  id },
+    })
 
-    // const transaction = await prisma.$transaction([DeleteUser, DeleteCredentials])
-    return DeleteUser;
+    const transaction = await prisma.$transaction([DeleteCredentials, DeleteUser])
+    return transaction;
 }

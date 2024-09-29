@@ -30,17 +30,15 @@ export async function SignInUsersController(req: Request, res: Response) {
     try {
 
     const GetUser = await SignInUsersService({email})
+    
     if (GetUser && bcrypt.compareSync(password, GetUser.password)) {
 
-        // const token = jwt.sign({userId: GetUser.id}, process.env.JWT_SECRET,
-        // {expiresIn: 86400})
-
-        res.status(200).send('w') 
+        const token = jwt.sign({id: GetUser.id}, process.env.JWT_SECRET, {expiresIn: 86400})
+        console.log(token)
+        res.status(200).send(token) 
     } else {
         res.status(401).send('Email ou senha não correspondentes!')
-    }
-    
-    } catch (error) {
+    }} catch (error) {
         res.status(400).send(error)
     }
 }

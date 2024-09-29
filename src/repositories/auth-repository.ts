@@ -3,7 +3,7 @@ import prisma from "../config/db";
 import bcrypt from 'bcrypt';
 import { EmailLogin } from "protocols/types";
 
-export async function SignUpUsersRepository(user: users) {
+export async function SignUpUsersRepository(user: users) : Promise<users>  {
     const {user_name, email, password} = user
     const passwordHash = bcrypt.hashSync(password, 10);
 
@@ -20,12 +20,12 @@ export async function SignUpUsersRepository(user: users) {
     return InsertUser; 
 }
 
-export async function GetUsersRepository() {
+export async function GetUsersRepository() : Promise<users[]>  {
     const GetUser = await prisma.users.findMany();
     return GetUser; 
 }
 
-export async function SignInUsersRepository(userReq: EmailLogin) {
+export async function SignInUsersRepository(userReq: EmailLogin) : Promise<users>  {
 
     const findUser = await prisma.users.findFirst({where: userReq})
     return findUser
